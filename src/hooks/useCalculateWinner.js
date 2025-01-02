@@ -9,12 +9,16 @@ const useCalculateWinner = (squares) => {
     [0, 4, 8],
     [2, 4, 6],
   ];
-  for (let i = 0; i < list.length; i++) {
+
+  const len = list.length;
+
+  for (let i = 0; i < len; i++) {
     const [a, b, c] = list[i];
     if (squares && squares[a] === squares[b] && squares[a] === squares[c]) {
       return squares[a];
     }
   }
+
   return null;
 };
 

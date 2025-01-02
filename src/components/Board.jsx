@@ -6,10 +6,12 @@ const Board = () => {
   const [xIsNext, setXIsNext] = useState(true);
   const [squares, setSquares] = useState(Array(9).fill(null));
 
+  const winner = useCalculateWinner(squares);
+
   const handleClick = (i) => {
     const nextSquares = squares.slice();
 
-    if (squares[i] || useCalculateWinner(squares)) {
+    if (squares[i] || winner) {
       return; // if it is true, then the execution will be stop here and go out from this handleClick function, won't go through down!
     }
 
@@ -22,20 +24,41 @@ const Board = () => {
     setXIsNext(!xIsNext);
   };
 
-  const winner = useCalculateWinner(squares);
+  const nullContainer = squares.filter((value) => value === null);
+
   let status;
   if (winner) {
-    status = `Winner: ${winner}`;
+    status = (
+      <h3 className="text-gray-600 text-xl font-semibold my-3 text-center">
+        Winner: <span className="text-red-500">{winner}</span>
+      </h3>
+    );
+  } else if (winner === null && nullContainer.length === 0) {
+    status = (
+      <h3 className="text-gray-500 text-lg font-semibold my-3 text-center">
+        No way! Try again!
+      </h3>
+    );
   } else {
-    status = `Player turn: ${xIsNext ? "X" : "O"}`;
+    status = (
+      <h3 className="text-gray-600 text-xl font-semibold my-3 text-center">
+        Player turn:{" "}
+        {xIsNext ? (
+          <span className="text-yellow-500">X</span>
+        ) : (
+          <span className="text-blue-500">O</span>
+        )}
+      </h3>
+    );
   }
 
   return (
     <div className="w-full mx-auto">
-      <h1 className="text-center font-semibold">Mini Tic-Tac-Toe (X vs O)</h1>
-      <h3 className="text-red-500 text-2xl font-semibold my-3 text-center">
-        {status}
-      </h3>
+      <h1 className="text-center font-semibold">
+        Mini Tic-Tac-Toe (<span className="text-yellow-500">X</span> vs{" "}
+        <span className="text-blue-500">O</span>)
+      </h1>
+      {status}
       <div className="w-full ml-5">
         <div className="board-row">
           <Square value={squares[0]} onSquareClick={() => handleClick(0)} />
@@ -53,6 +76,29 @@ const Board = () => {
           <Square value={squares[8]} onSquareClick={() => handleClick(8)} />
         </div>
       </div>
+      {winner && (
+        <button
+          onClick={() => {
+            setSquares(Array(9).fill(null));
+            setXIsNext(true);
+          }}
+          className="bg-red-400 border-2 border-red-500 px-4 py-2 rounded-md mt-6 ml-[30.5%] text-white font-semibold tracking-wide"
+        >
+          Replay
+        </button>
+      )}
+
+      {nullContainer.length === 0 && winner === null && (
+        <button
+          onClick={() => {
+            setSquares(Array(9).fill(null));
+            setXIsNext(true);
+          }}
+          className="bg-red-400 border-2 border-red-500 px-4 py-2 rounded-md mt-6 ml-[30.5%] text-white font-semibold tracking-wide"
+        >
+          Replay
+        </button>
+      )}
     </div>
   );
 };
