@@ -25,14 +25,16 @@ const Board = () => {
   const winner = useCalculateWinner(squares);
   let status;
   if (winner) {
-    status = `Winner is ${winner}`;
+    status = `Winner: ${winner}`;
   } else {
     status = `Player turn: ${xIsNext ? "X" : "O"}`;
   }
 
   return (
-    <div className="w-36">
-      <h3 className="text-red-500 text-lg font-semibold my-3">{status}</h3>
+    <div className="w-full mx-auto">
+      <h3 className="text-red-500 text-2xl font-semibold my-3 text-center">
+        {status}
+      </h3>
       <div className="board-row">
         <Square value={squares[0]} onSquareClick={() => handleClick(0)} />
         <Square value={squares[1]} onSquareClick={() => handleClick(1)} />
