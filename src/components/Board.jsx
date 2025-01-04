@@ -53,7 +53,7 @@ const Board = () => {
   }
 
   return (
-    <div className="w-full mx-auto">
+    <div className="w-full mx-auto mt-[50%]">
       <h1 className="text-center font-semibold">
         Mini Tic-Tac-Toe (<span className="text-yellow-500">X</span> vs{" "}
         <span className="text-blue-500">O</span>)
